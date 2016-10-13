@@ -1,14 +1,13 @@
-<FrameLayout
+<?xml version="1.0" encoding="utf-8"?>
+
+<GridView
+    android:id="@+id/movie_gridview"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    tools:context="com.mediocremidgardian.popularmovies.MovieListFragment">
-
-    <ListView
-        android:id="@+id/listview_movies"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-</FrameLayout>
+    tools:context="com.mediocremidgardian.popularmovies.MovieListFragment"
+    android:verticalSpacing="0dp"
+    android:horizontalSpacing="0dp"
+    android:numColumns="auto_fit"
+    android:stretchMode="columnWidth"/>
