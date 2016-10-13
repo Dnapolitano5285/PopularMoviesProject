@@ -6,9 +6,11 @@ import android.app.LoaderManager;
 import android.content.Loader;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 
 import java.util.ArrayList;
@@ -34,14 +36,15 @@ public class MovieListFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_movie_list,container,false);
+        View rootView = inflater.inflate(R.layout.fragment_movie_list, container, false);
 
         //set array adapter - will be empty at first and will swap when we query
         mMovies = new ArrayList<>();
-        mAdapter = new MovieListAdapter(getActivity(),R.layout.grid_imageview,mMovies);
+        mAdapter = new MovieListAdapter(getActivity(), R.layout.grid_imageview, mMovies);
 
         movieGridView = (GridView) rootView.findViewById(R.id.movie_gridview);
         movieGridView.setAdapter(mAdapter);
+
 
         return rootView;
     }
@@ -49,7 +52,7 @@ public class MovieListFragment extends Fragment
     @Override
     public void onStart() {
         super.onStart();
-        getLoaderManager().initLoader(1,null,this);
+        getLoaderManager().initLoader(1, null, this);
     }
 
     @Override
@@ -60,7 +63,7 @@ public class MovieListFragment extends Fragment
         Uri baseUri = Uri.parse(QueryUtils.MOVIEDB_POPULAR_URL);
         Uri.Builder uriBuilder = baseUri.buildUpon();
 
-        uriBuilder.appendQueryParameter("api_key",QueryUtils.API_KEY);
+        uriBuilder.appendQueryParameter("api_key", QueryUtils.API_KEY);
 
         return new MovieLoader(getActivity(), uriBuilder.toString());
     }
@@ -70,12 +73,37 @@ public class MovieListFragment extends Fragment
 
         mMovies = movies;
 
-        if(mMovies!=null){
+        if (mMovies != null) {
             mAdapter.clear();
             mAdapter.addAll(mMovies);
             mAdapter.notifyDataSetChanged();
         }
 
+        movieGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+
+                String title = mMovies.get(position).getTitle();
+                String year = mMovies.get(position).getYear();
+                String rating = mMovies.get(position).getRating();
+                String description = mMovies.get(position).getDescription();
+                String posterPath = mMovies.get(position).getPosterUrl();
+
+                Bundle bundle = new Bundle();
+                bundle.putString("title",title);
+                bundle.putString("year",year);
+                bundle.putString("rating",rating);
+                bundle.putString("description", description);
+                bundle.putString("posterpath",posterPath);
+
+
+                Log.e("asdfasdfasdfasdf","loading fragment");
+                Fragment fragment = new MovieDetailFragment();
+                fragment.setArguments(bundle);
+                getFragmentManager().beginTransaction()
+                        .add(R.id.activity_main_container, fragment).commit();
+            }
+        });
     }
 
 

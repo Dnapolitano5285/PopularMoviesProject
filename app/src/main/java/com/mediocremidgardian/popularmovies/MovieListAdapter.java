@@ -1,7 +1,12 @@
 package com.mediocremidgardian.popularmovies;
 
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.Context;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +41,7 @@ public class MovieListAdapter extends ArrayAdapter<Movie> {
 
     @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
 
         ImageView imageView;
 
@@ -47,6 +52,36 @@ public class MovieListAdapter extends ArrayAdapter<Movie> {
         }
 
         Picasso.with(mContext).load(mMovies.get(position).getPosterUrl()).into(imageView);
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+
+                String title = mMovies.get(position).getTitle();
+                String year = mMovies.get(position).getYear();
+                String rating = mMovies.get(position).getRating();
+                String description = mMovies.get(position).getDescription();
+                String posterPath = mMovies.get(position).getPosterUrl();
+
+                Bundle bundle = new Bundle();
+                bundle.putString("title",title);
+                bundle.putString("year",year);
+                bundle.putString("rating",rating);
+                bundle.putString("description", description);
+                bundle.putString("posterpath",posterPath);
+
+
+                Log.e("asdfasdfasdfasdf","loading fragment");
+                Fragment fragment = new MovieDetailFragment();
+                fragment.setArguments(bundle);
+
+                FragmentManager manager = ((Activity)mContext).getFragmentManager();
+
+                manager.beginTransaction()
+                        .replace(R.id.activity_main_container, fragment).commit();
+            }
+        });
 
         return imageView;
     }
