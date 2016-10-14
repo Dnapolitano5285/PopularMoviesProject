@@ -138,7 +138,7 @@ public class MovieListFragment extends Fragment
         ArrayAdapter adapter = ArrayAdapter.createFromResource(getActivity(), R.array.array_sort_spinner,
                 R.layout.spinner_textview);
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.spinner_textview);
 
         spinner.setAdapter(adapter);
 
