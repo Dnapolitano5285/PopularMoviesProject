@@ -93,30 +93,6 @@ public class MovieListFragment extends Fragment
             mAdapter.notifyDataSetChanged();
         }
 
-        movieGridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-
-                String title = mMovies.get(position).getTitle();
-                String year = mMovies.get(position).getYear();
-                String rating = mMovies.get(position).getRating();
-                String description = mMovies.get(position).getDescription();
-                String posterPath = mMovies.get(position).getPosterUrl();
-
-                Bundle bundle = new Bundle();
-                bundle.putString("title", title);
-                bundle.putString("year", year);
-                bundle.putString("rating", rating);
-                bundle.putString("description", description);
-                bundle.putString("posterpath", posterPath);
-
-
-                Fragment fragment = new MovieDetailFragment();
-                fragment.setArguments(bundle);
-                getFragmentManager().beginTransaction()
-                        .add(R.id.activity_main_container, fragment).commit();
-            }
-        });
     }
 
 
