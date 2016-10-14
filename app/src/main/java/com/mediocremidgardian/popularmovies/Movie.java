@@ -51,7 +51,7 @@ public class Movie {
     }
 
     //create and store the final url path for ease of use later
-    private String createPosterURL(String posterPath){
+    private String createPosterURL(String posterPath) {
 
         String posterPathBase = "http://image.tmdb.org/t/p/w185/";
 

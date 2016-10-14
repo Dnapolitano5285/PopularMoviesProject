@@ -6,7 +6,6 @@ import android.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,7 +44,7 @@ public class MovieListAdapter extends ArrayAdapter<Movie> {
 
         ImageView imageView;
 
-        if(convertView == null){
+        if (convertView == null) {
             imageView = (ImageView) mInflater.inflate(resourceId, parent, false);
         } else {
             imageView = (ImageView) convertView;
@@ -65,21 +64,19 @@ public class MovieListAdapter extends ArrayAdapter<Movie> {
                 String posterPath = mMovies.get(position).getPosterUrl();
 
                 Bundle bundle = new Bundle();
-                bundle.putString("title",title);
-                bundle.putString("year",year);
-                bundle.putString("rating",rating);
+                bundle.putString("title", title);
+                bundle.putString("year", year);
+                bundle.putString("rating", rating);
                 bundle.putString("description", description);
-                bundle.putString("posterpath",posterPath);
+                bundle.putString("posterpath", posterPath);
 
-
-                Log.e("asdfasdfasdfasdf","loading fragment");
                 Fragment fragment = new MovieDetailFragment();
                 fragment.setArguments(bundle);
 
-                FragmentManager manager = ((Activity)mContext).getFragmentManager();
+                FragmentManager manager = ((Activity) mContext).getFragmentManager();
 
                 manager.beginTransaction()
-                        .replace(R.id.activity_main_container, fragment).commit();
+                        .replace(R.id.activity_main_container, fragment).addToBackStack(null).commit();
             }
         });
 

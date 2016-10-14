@@ -13,6 +13,7 @@
         android:layout_marginBottom="16dp"
         android:background="@color/colorAccent"
         android:gravity="center_vertical"
+        android:paddingEnd="16dp"
         android:paddingStart="16dp"
         android:textColor="#fff"
         android:textSize="30sp"
@@ -91,6 +92,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingEnd="16dp"
         android:paddingStart="16dp"
         android:text="@string/trailers"
         android:textSize="18sp" />

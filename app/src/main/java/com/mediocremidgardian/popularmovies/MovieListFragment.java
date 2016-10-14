@@ -6,12 +6,15 @@ import android.app.LoaderManager;
 import android.content.Loader;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +29,17 @@ public class MovieListFragment extends Fragment
     MovieListAdapter mAdapter;
     List<Movie> mMovies;
     GridView movieGridView;
+    int mSpinnerValue = 0;
 
     public MovieListFragment() {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -57,10 +66,15 @@ public class MovieListFragment extends Fragment
 
     @Override
     public Loader<List<Movie>> onCreateLoader(int id, Bundle bundle) {
-        //TODO shared preferences to decide sort order
 
-        //create the uri which will send as string to create Loader
-        Uri baseUri = Uri.parse(QueryUtils.MOVIEDB_POPULAR_URL);
+        Uri baseUri = null;
+
+        if (mSpinnerValue == 0) {
+            //create the uri which will send as string to create Loader
+            baseUri = Uri.parse(QueryUtils.MOVIEDB_POPULAR_URL);
+        } else if (mSpinnerValue == 1) {
+            baseUri = Uri.parse(QueryUtils.MOVIEDB_TOP_RATES_URL);
+        }
         Uri.Builder uriBuilder = baseUri.buildUpon();
 
         uriBuilder.appendQueryParameter("api_key", QueryUtils.API_KEY);
@@ -90,14 +104,13 @@ public class MovieListFragment extends Fragment
                 String posterPath = mMovies.get(position).getPosterUrl();
 
                 Bundle bundle = new Bundle();
-                bundle.putString("title",title);
-                bundle.putString("year",year);
-                bundle.putString("rating",rating);
+                bundle.putString("title", title);
+                bundle.putString("year", year);
+                bundle.putString("rating", rating);
                 bundle.putString("description", description);
-                bundle.putString("posterpath",posterPath);
+                bundle.putString("posterpath", posterPath);
 
 
-                Log.e("asdfasdfasdfasdf","loading fragment");
                 Fragment fragment = new MovieDetailFragment();
                 fragment.setArguments(bundle);
                 getFragmentManager().beginTransaction()
@@ -113,5 +126,36 @@ public class MovieListFragment extends Fragment
         mAdapter.clear();
         getLoaderManager().getLoader(1).reset();
 
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        inflater.inflate(R.menu.sort_spinner, menu);
+
+        Spinner spinner = (Spinner) menu.findItem(R.id.spinner).getActionView();
+
+        ArrayAdapter adapter = ArrayAdapter.createFromResource(getActivity(), R.array.array_sort_spinner,
+                R.layout.spinner_textview);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        spinner.setAdapter(adapter);
+
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                mSpinnerValue = position;
+                getLoaderManager().restartLoader(1, null, MovieListFragment.this);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+        {
+
+        }
     }
 }

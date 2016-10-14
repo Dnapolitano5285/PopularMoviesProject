@@ -14,13 +14,13 @@ import java.util.ArrayList;
 
 public final class QueryUtils {
 
-    private static String LOG_TAG =QueryUtils.class.getName();
+    private static String LOG_TAG = QueryUtils.class.getName();
 
     public static final String MOVIEDB_POPULAR_URL = "https://api.themoviedb.org/3/movie/popular";
     public static final String MOVIEDB_TOP_RATES_URL = "https://api.themoviedb.org/3/movie/top_rated";
-    public static final String API_KEY ="b581ea78f98eaf9a41d6c35ec909b481";
+    public static final String API_KEY = "";
 
-    private QueryUtils(){
+    private QueryUtils() {
 
     }
 
@@ -33,12 +33,12 @@ public final class QueryUtils {
         //setup strings we will need  to create new movies
         String title, releaseDate, rating, description, poster;
 
-        try{
+        try {
 
             JSONObject data = new JSONObject(jsonResponse);
             JSONArray movieList = data.getJSONArray("results");
 
-            for(int i = 0; i<movieList.length(); i++){
+            for (int i = 0; i < movieList.length(); i++) {
 
                 JSONObject movie = movieList.getJSONObject(i);
 
@@ -52,14 +52,13 @@ public final class QueryUtils {
             }
 
 
-        } catch (JSONException e){
+        } catch (JSONException e) {
 
-            Log.e(LOG_TAG, "Problem parsing JSON",e);
+            Log.e(LOG_TAG, "Problem parsing JSON", e);
         }
 
         return movies;
     }
-
 
 
 }

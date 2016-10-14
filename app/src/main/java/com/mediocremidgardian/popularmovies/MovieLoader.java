@@ -31,11 +31,11 @@ public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
     public MovieLoader(Context context, String url) {
         super(context);
 
-        try{
+        try {
             mUrl = new URL(url);
-        } catch (MalformedURLException e){
-           //should be unreachable due to no user input for url
-            Toast.makeText(getContext(),"Invalid Url",Toast.LENGTH_SHORT).show();
+        } catch (MalformedURLException e) {
+            //should be unreachable due to no user input for url
+            Toast.makeText(getContext(), "Invalid Url", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -44,10 +44,10 @@ public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
 
         //check for internet connection
         ConnectivityManager cm =
-                (ConnectivityManager)getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                (ConnectivityManager) getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        if(activeNetwork !=null && activeNetwork.isConnectedOrConnecting()){
+        if (activeNetwork != null && activeNetwork.isConnectedOrConnecting()) {
             String jsonResponse = "";
             jsonResponse = makeHttpRequest(mUrl);
 
@@ -75,8 +75,8 @@ public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
             }
 
         } catch (IOException e) {
-            Log.e(LOG_TAG,"Error making connection",e);
-            jsonResponse=null;
+            Log.e(LOG_TAG, "Error making connection", e);
+            jsonResponse = null;
 
         } finally {
             //close the connection and the input stream to avoid data leaks
@@ -99,7 +99,7 @@ public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
 
         StringBuilder output = new StringBuilder();
 
-        if(inputStream!= null){
+        if (inputStream != null) {
 
             InputStreamReader inputStreamReader =
                     new InputStreamReader(inputStream, Charset.forName("UTF-8"));
@@ -107,7 +107,7 @@ public class MovieLoader extends AsyncTaskLoader<List<Movie>> {
             BufferedReader reader = new BufferedReader(inputStreamReader);
             String line = reader.readLine();
 
-            while(line!= null){
+            while (line != null) {
                 output.append(line);
                 line = reader.readLine();
             }

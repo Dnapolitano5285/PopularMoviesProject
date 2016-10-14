@@ -35,11 +35,11 @@ public class MovieDetailFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_movie_detail, container, false);
 
-        mPoster = (ImageView)rootView.findViewById(R.id.detail_poster_imageview);
+        mPoster = (ImageView) rootView.findViewById(R.id.detail_poster_imageview);
         mTitle = (TextView) rootView.findViewById(R.id.title_detail_fragment);
-        mYear = (TextView)rootView.findViewById(R.id.year_detail_textview);
-        mRating = (TextView)rootView.findViewById(R.id.rating_detail_textview);
-        mDescription = (TextView)rootView.findViewById(R.id.description_detail_fragment);
+        mYear = (TextView) rootView.findViewById(R.id.year_detail_textview);
+        mRating = (TextView) rootView.findViewById(R.id.rating_detail_textview);
+        mDescription = (TextView) rootView.findViewById(R.id.description_detail_fragment);
 
         Bundle bundle = getArguments();
         String title = bundle.getString("title");
